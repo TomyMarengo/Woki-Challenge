@@ -10,10 +10,10 @@ A production-ready visual timeline interface for managing restaurant reservation
 
    - Two-axis layout: time (X-axis) × tables (Y-axis)
    - Time slots from 11:00 to 00:00 in 15-minute increments
-   - Vertical grid lines (bold every hour, lighter every 30min)
+   - Vertical grid lines
    - Horizontal lines separating tables
    - Collapsible sector headers
-   - Current time indicator (red line with dot)
+   - Current time indicator (red line)
    - Sticky headers for easy navigation
 
 2. **Reservation Blocks**
@@ -186,44 +186,6 @@ src/
     └── index.ts
 ```
 
-### Key Design Decisions
-
-**1. Rendering Strategy**
-
-- CSS Grid and absolute positioning for precise control
-- Sticky positioning for headers
-- Transform-based animations for smooth drag interactions
-
-**2. Coordinate System**
-
-- Clean separation: time/table → slot index → ISO datetime
-- Utilities: `isoToSlotIndex()`, `slotToISODateTime()`, `slotIndexToTime()`
-- Makes positioning calculations transparent and testable
-
-**3. State Normalization**
-
-- Flat structure in Zustand store
-- Quick lookups by ID
-- Efficient filtering with useMemo
-
-**4. Drag & Drop**
-
-- @dnd-kit for moving reservations between tables/times
-- Native mouse events for create-by-dragging
-- Separation allows fine-grained control
-
-**5. Conflict Detection Algorithm**
-
-```typescript
-// Check if two time ranges overlap
-overlap = (start1 < end2) AND (start2 < end1)
-
-// Check capacity
-valid = (partySize >= table.min) AND (partySize <= table.max)
-
-// Visual feedback: red border + warning icon
-```
-
 ## 🎯 Performance
 
 - **60fps** scrolling and dragging
@@ -232,23 +194,6 @@ valid = (partySize >= table.min) AND (partySize <= table.max)
 - **Code splitting** with dynamic imports
 - **Memoization** to prevent unnecessary re-renders
 - **Debounced** search (300ms)
-
-## 🎨 Design Choices
-
-- **Color-coded statuses** for quick visual scanning
-- **Sector colors** for easy table grouping
-- **Warning indicators** for conflicts and issues
-- **Responsive toolbar** with clear controls
-- **Contextual actions** via right-click menu
-- **Progressive disclosure** with collapsible sectors
-
-## 🧪 Testing
-
-The application includes test data generation:
-
-- Click "Load 200" to generate 200 random reservations
-- Click "Reset" to restore initial seed data
-- Test performance, conflicts, filtering with realistic data
 
 ## ⚠️ Known Limitations
 
@@ -259,8 +204,6 @@ The application includes test data generation:
 3. **Undo/Redo** - Not implemented. Would require action history tracking.
 
 4. **Multi-day view** - Only single day view implemented.
-
-5. **Virtual scrolling** - Not implemented for table rows. With 100+ tables, consider virtualizing the row rendering.
 
 ## 🔮 Future Enhancements (BONUS Features)
 
@@ -282,7 +225,3 @@ This is a challenge project for demonstration purposes.
 ## 👤 Author
 
 Built as part of the Woki technical challenge (October 2025)
-
----
-
-**Note**: This application demonstrates production-ready code quality, TypeScript best practices, modern React patterns, and thoughtful UX design within the ~4 hour CORE timeline constraint.
